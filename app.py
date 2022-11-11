@@ -53,7 +53,7 @@ def hook():
                 message = messenger.get_message(data)
                 name = messenger.get_name(data)
                 logging.info("Message: %s", message)
-                messenger.send_message(f"Hi {name}, nice to connect with you", mobile)
+                # messenger.send_message(f"Hi {name}, nice to connect with you", mobile)
 
             elif message_type == "interactive":
                 message_response = messenger.get_interactive_response(data)
@@ -75,6 +75,7 @@ def hook():
                 image_filename = messenger.download_media(image_url, mime_type)
                 print(f"{mobile} sent image {image_filename}")
                 logging.info(f"{mobile} sent image {image_filename}")
+
 
             elif message_type == "video":
                 video = messenger.get_video(data)
