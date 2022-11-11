@@ -72,34 +72,41 @@ def hook():
                 image = messenger.get_image(data)
                 image_id, mime_type = image["id"], image["mime_type"]
                 image_url = messenger.query_media_url(image_id)
-                image_filename = messenger.download_media(image_url, mime_type)
-                print(f"{mobile} sent image {image_filename}")
-                logging.info(f"{mobile} sent image {image_filename}")
+                print(f"{mobile} image_url {image_url}")
+                logging.info(f"{mobile} image_url {image_url}")
+                # image_filename = messenger.download_media(image_url, mime_type)
+                # print(f"{mobile} sent image {image_filename}")
+                # logging.info(f"{mobile} sent image {image_filename}")
 
 
             elif message_type == "video":
                 video = messenger.get_video(data)
                 video_id, mime_type = video["id"], video["mime_type"]
                 video_url = messenger.query_media_url(video_id)
-                video_filename = messenger.download_media(video_url, mime_type)
-                print(f"{mobile} sent video {video_filename}")
-                logging.info(f"{mobile} sent video {video_filename}")
+                print(f"{mobile} video_url {video_url}")
+                logging.info(f"{mobile} video_url {video_url}")
+                # video_filename = messenger.download_media(video_url, mime_type)
+                # print(f"{mobile} sent video {video_filename}")
+                # logging.info(f"{mobile} sent video {video_filename}")
 
             elif message_type == "audio":
                 audio = messenger.get_audio(data)
                 audio_id, mime_type = audio["id"], audio["mime_type"]
                 audio_url = messenger.query_media_url(audio_id)
-                audio_filename = messenger.download_media(audio_url, mime_type)
-                print(f"{mobile} sent audio {audio_filename}")
-                logging.info(f"{mobile} sent audio {audio_filename}")
+                print(f"{mobile}  audio_url {audio_url}")
+                logging.info(f"{mobile} audio_url {audio_url}")                # audio_filename = messenger.download_media(audio_url, mime_type)
+                # print(f"{mobile} sent audio {audio_filename}")
+                # logging.info(f"{mobile} sent audio {audio_filename}")
 
             elif message_type == "file":
                 file = messenger.get_file(data)
                 file_id, mime_type = file["id"], file["mime_type"]
                 file_url = messenger.query_media_url(file_id)
-                file_filename = messenger.download_media(file_url, mime_type)
-                print(f"{mobile} sent file {file_filename}")
-                logging.info(f"{mobile} sent file {file_filename}")
+                print(f"{mobile} file_url {file_url}")
+                logging.info(f"{mobile} file_url {file_url}")
+                # file_filename = messenger.download_media(file_url, mime_type)
+                # print(f"{mobile} sent file {file_filename}")
+                # logging.info(f"{mobile} sent file {file_filename}")
             else:
                 print(f"{mobile} sent {message_type} ")
                 print(data)
