@@ -6,13 +6,13 @@ import json
 from heyoo import WhatsApp
 from os import environ
 from flask import Flask, request, make_response
+from os import environ
 
 import logging
 #
 app = Flask(__name__)
 #
-messenger =  WhatsApp('EAAJVc3j40G8BAIIOo4PRdOZAbObeWnWnVXnXnFuHq6Ngd1sE7kvWxyR9pok4gbhuXnXZAZB5LVkcG34ZAI2z4blaeCf5Wu5fgasFVO3M2DeuDEI6xZAix6Jnp7iNaVKyf4X3ryUr75jAIZA634tkCFEUZABmf8dPDRgoZBGxmpwZBddXZBEIbqXEpdrfca4jLb0hkd20GmwAmYZCgZDZD', '110829038490956')
-# #WhatsApp(token = "inpust accesstoken", phone_number_id="input phone number id") #messages are not recieved without this pattern
+messenger = WhatsApp(environ.get("TOKEN"), phone_number_id=environ.get("PHONE_NUMBER_ID")) #this should be writen as# #WhatsApp(token = "inpust accesstoken", phone_number_id="input phone number id") #messages are not recieved without this pattern
 #
 #
 VERIFY_TOKEN = 'umer' #application secret here
@@ -42,6 +42,7 @@ def hook():
     changed_field = messenger.changed_field(data)
     if changed_field == "messages":
         new_message = messenger.get_mobile(data)
+        print(new_message)
         if new_message:
             mobile = messenger.get_mobile(data)
             name = messenger.get_name(data)
@@ -57,6 +58,7 @@ def hook():
 
             elif message_type == "interactive":
                 message_response = messenger.get_interactive_response(data)
+                print('message_response',message_response)
                 intractive_type = message_response.get("type")
                 message_id = message_response[intractive_type]["id"]
                 message_text = message_response[intractive_type]["title"]
@@ -64,17 +66,20 @@ def hook():
 
             elif message_type == "location":
                 message_location = messenger.get_location(data)
+                print('message_location',message_location)
                 message_latitude = message_location["latitude"]
                 message_longitude = message_location["longitude"]
                 logging.info("Location: %s, %s", message_latitude, message_longitude)
 
             elif message_type == "image":
                 image = messenger.get_image(data)
+                print(image)
                 image_id, mime_type = image["id"], image["mime_type"]
                 image_url = messenger.query_media_url(image_id)
-                # print(f"{mobile} image_url {image_url}")
+                print(f"{mobile} image_url {image_url}")
                 # logging.info(f"{mobile} image_url {image_url}")
                 image_filename = messenger.download_media(image_url, mime_type)
+                print(image_filename)
                 print(f"{mobile} sent image {image_filename}")
                 logging.info(f"{mobile} sent image {image_filename}")
 
@@ -83,7 +88,7 @@ def hook():
                 video = messenger.get_video(data)
                 video_id, mime_type = video["id"], video["mime_type"]
                 video_url = messenger.query_media_url(video_id)
-                # print(f"{mobile} video_url {video_url}")
+                print(f"{mobile} video_url {video_url}")
                 # logging.info(f"{mobile} video_url {video_url}")
                 video_filename = messenger.download_media(video_url, mime_type)
                 print(f"{mobile} sent video {video_filename}")
@@ -93,7 +98,7 @@ def hook():
                 audio = messenger.get_audio(data)
                 audio_id, mime_type = audio["id"], audio["mime_type"]
                 audio_url = messenger.query_media_url(audio_id)
-                # print(f"{mobile}  audio_url {audio_url}")
+                print(f"{mobile}  audio_url {audio_url}")
                 # logging.info(f"{mobile} audio_url {audio_url}")
                 audio_filename = messenger.download_media(audio_url, mime_type)
                 print(f"{mobile} sent audio {audio_filename}")
@@ -103,7 +108,7 @@ def hook():
                 file = messenger.get_file(data)
                 file_id, mime_type = file["id"], file["mime_type"]
                 file_url = messenger.query_media_url(file_id)
-                # print(f"{mobile} file_url {file_url}")
+                print(f"{mobile} file_url {file_url}")
                 # logging.info(f"{mobile} file_url {file_url}")
                 file_filename = messenger.download_media(file_url, mime_type)
                 print(f"{mobile} sent file {file_filename}")
