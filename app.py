@@ -40,7 +40,7 @@ class Sender(db.Model):
 
 
     def __repr__(self):
-        return '<E-mail %r>' % self.email
+        return '<E-mail %r>' % self.sender_response
 messenger = WhatsApp(environ.get("TOKEN"), phone_number_id=environ.get("PHONE_NUMBER_ID")) #this should be writen as# #WhatsApp(token = "inpust accesstoken", phone_number_id="input phone number id") #messages are not recieved without this pattern
 #
 #
