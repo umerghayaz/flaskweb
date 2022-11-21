@@ -13,17 +13,17 @@ from flask_sqlalchemy import SQLAlchemy# from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 import logging
 # app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://wslnapfcxanodr:a7264b32be99407001919e87affb1e06e86a4f8a844daa4eb722678aed8d4cfe@ec2-54-163-34-107.compute-1.amazonaws.com:5432/dfb4pqic2dqauj'
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://lillleftcpeboq:57666e2529f20957101e4a3facaf592479f4017e0c8666d5ffae39aa276327d0@ec2-3-216-167-65.compute-1.amazonaws.com:5432/d6bd2c081gh9cr'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://lillleftcpeboq:57666e2529f20957101e4a3facaf592479f4017e0c8666d5ffae39aa276327d0@ec2-3-216-167-65.compute-1.amazonaws.com:5432/d6bd2c081gh9cr'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db=SQLAlchemy(app)
 app = Flask(__name__)
 #
-class Sender(db.Model):
-    __tablename__ = "sender"
-    id = db.Column(db.Integer, primary_key=True)
-    # email = db.Column(db.String(120), unique=True)
-    sender_response = db.Column(db.JSON)
+# class Sender(db.Model):
+#     __tablename__ = "sender"
+#     id = db.Column(db.Integer, primary_key=True)
+#     # email = db.Column(db.String(120), unique=True)
+#     sender_response = db.Column(db.JSON)
     # sender_name = db. Column(db.String(100), nullable = False)
     # sender_message = db.Column(db.String(1000), nullable = False)
     # sender_message_type = db.Column(db.String(1000), nullable=False)
@@ -31,18 +31,18 @@ class Sender(db.Model):
     # latitude = db.Column(db.Float, index=False, unique=False)
     # longitude = db.Column(db.Float, index=False, unique=False)
 
-    def __init__(self, sender_response):
-        self.sender_response = sender_response
-        # self.sender_name = sender_name
-        # self.sender_message = sender_message
-        # self.sender_number = sender_number
-        # self.latitude = latitude
-        # self.longitude = longitude
-        # self.sender_message_type = sender_message_type
-
-
-    def __repr__(self):
-        return '<E-mail %r>' % self.sender_response
+    # def __init__(self, sender_response):
+    #     self.sender_response = sender_response
+    #     # self.sender_name = sender_name
+    #     # self.sender_message = sender_message
+    #     # self.sender_number = sender_number
+    #     # self.latitude = latitude
+    #     # self.longitude = longitude
+    #     # self.sender_message_type = sender_message_type
+    #
+    #
+    # def __repr__(self):
+    #     return '<E-mail %r>' % self.sender_response
 messenger = WhatsApp(environ.get("TOKEN"), phone_number_id=environ.get("PHONE_NUMBER_ID")) #this should be writen as# #WhatsApp(token = "inpust accesstoken", phone_number_id="input phone number id") #messages are not recieved without this pattern
 #
 #
@@ -70,9 +70,9 @@ def hook():
     # Handle Webhook Subscriptions
     data = request.get_json()
     logging.info("Received webhook data: %s", data)
-    pet = Sender(sender_response=data)
-    db.session.add(pet)
-    db.session.commit()
+    # pet = Sender(sender_response=data)
+    # db.session.add(pet)
+    # db.session.commit()
     changed_field = messenger.changed_field(data)
     if changed_field == "messages":
         new_message = messenger.get_mobile(data)
@@ -169,8 +169,8 @@ def hook():
             else:
                 print("No new message")
     return "ok"
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
