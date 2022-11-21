@@ -13,8 +13,7 @@ from flask_sqlalchemy import SQLAlchemy# from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 import logging
 # app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://wslnapfcxanodr:a7264b32be99407001919e87affb1e06e86a4f8a844daa4eb722678aed8d4cfe@ec2-54-163-34-107.compute-1.amazonaws.com:5432/dfb4pqic2dqauj'
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://lillleftcpeboq:57666e2529f20957101e4a3facaf592479f4017e0c8666d5ffae39aa276327d0@ec2-3-216-167-65.compute-1.amazonaws.com:5432/d6bd2c081gh9cr'
-
+app.config['SQLALCHEMY_DATABASE_URI']='postgres://lillleftcpeboq:57666e2529f20957101e4a3facaf592479f4017e0c8666d5ffae39aa276327d0@ec2-3-216-167-65.compute-1.amazonaws.com:5432/d6bd2c081gh9cr'
 db=SQLAlchemy(app)
 app = Flask(__name__)
 #
