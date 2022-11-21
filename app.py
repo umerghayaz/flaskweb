@@ -7,11 +7,40 @@ from heyoo import WhatsApp
 from os import environ
 from flask import Flask, request, make_response
 from os import environ
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy# from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
 import logging
-#
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql+psycopg2://wslnapfcxanodr:a7264b32be99407001919e87affb1e06e86a4f8a844daa4eb722678aed8d4cfe@ec2-54-163-34-107.compute-1.amazonaws.com:5432/dfb4pqic2dqauj'
+
+db=SQLAlchemy(app)
 app = Flask(__name__)
 #
+class Sender(db.Model):
+    __tablename__ = "sender"
+    id = db.Column(db.Integer, primary_key=True)
+    # email = db.Column(db.String(120), unique=True)
+    sender_response = db.Column(db.JSON)
+    # sender_name = db. Column(db.String(100), nullable = False)
+    # sender_message = db.Column(db.String(1000), nullable = False)
+    # sender_message_type = db.Column(db.String(1000), nullable=False)
+    # sender_number = db.Column(db.String(1000), nullable=False)
+    # latitude = db.Column(db.Float, index=False, unique=False)
+    # longitude = db.Column(db.Float, index=False, unique=False)
+
+    def __init__(self, sender_response):
+        self.sender_response = sender_response
+        # self.sender_name = sender_name
+        # self.sender_message = sender_message
+        # self.sender_number = sender_number
+        # self.latitude = latitude
+        # self.longitude = longitude
+        # self.sender_message_type = sender_message_type
+
+
+    def __repr__(self):
+        return '<E-mail %r>' % self.email
 messenger = WhatsApp(environ.get("TOKEN"), phone_number_id=environ.get("PHONE_NUMBER_ID")) #this should be writen as# #WhatsApp(token = "inpust accesstoken", phone_number_id="input phone number id") #messages are not recieved without this pattern
 #
 #
@@ -39,6 +68,9 @@ def hook():
     # Handle Webhook Subscriptions
     data = request.get_json()
     logging.info("Received webhook data: %s", data)
+    pet = Sender(sender_response=data)
+    db.session.add(pet)
+    db.session.commit()
     changed_field = messenger.changed_field(data)
     if changed_field == "messages":
         new_message = messenger.get_mobile(data)
@@ -46,6 +78,10 @@ def hook():
         if new_message:
             mobile = messenger.get_mobile(data)
             name = messenger.get_name(data)
+            # pet = Sender(sender_name=name, sender_number=mobile)
+            # db.session.add(pet)
+            # db.session.commit()
+
             message_type = messenger.get_message_type(data)
             logging.info(
                 f"New Message; sender:{mobile} name:{name} type:{message_type}"
@@ -54,6 +90,8 @@ def hook():
                 message = messenger.get_message(data)
                 name = messenger.get_name(data)
                 logging.info("Message: %s", message)
+                # pet = Sender(sender_name=name, sender_number=mobile, sender_message_type=type,sender_message=message)
+
                 # messenger.send_message(f"Hi {name}, nice to connect with you", mobile)
 
             elif message_type == "interactive":
@@ -70,6 +108,7 @@ def hook():
                 print('message_location',message_location)
                 message_latitude = message_location["latitude"]
                 message_longitude = message_location["longitude"]
+                # pet = Sender(sender_name=name, sender_number=mobile, sender_message_type=type, sender_message=message)
                 print('message_latitude',message_latitude,'message_longitude',message_longitude)
                 # logging.info("Location: %s, %s", message_latitude, message_longitude)
 
